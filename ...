@@ -1,0 +1,184 @@
+#include<iostream>
+#include<conio.h>
+#include<dos.h> 
+//nn ////////////////////////////// ////////////////////////////// ////////////////////////////// //////////////////////////////
+#include <windows.h>
+#include <time.h>
+
+#define SCREEN_WIDTH 90
+#define SCREEN_HEIGHT 26
+#define WIN_WIDTH 70 
+
+using namespace std;
+
+HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+COORD CursorPosition;
+//nn ////////////////////////////// ////////////////////////////// ////////////////////////////// //////////////////////////////
+
+
+
+
+int bulletY[3];
+int bulletX[3];
+int bulletFlag[3];
+
+
+
+
+
+//nn ////////////////////////////// ////////////////////////////// ////////////////////////////// //////////////////////////////
+int carPos = WIN_WIDTH / 2;
+int score = 0;
+
+void gotoxy(int x, int y) {
+	CursorPosition.X = x;
+	CursorPosition.Y = y;
+	SetConsoleCursorPosition(console, CursorPosition);
+}
+void setcursor(bool visible, DWORD size) {
+	if (size == 0)
+		size = 20;
+
+	CONSOLE_CURSOR_INFO lpCursor;
+	lpCursor.bVisible = visible;
+	lpCursor.dwSize = size;
+	SetConsoleCursorInfo(console, &lpCursor);
+}
+/// ////////////////////////////// ////////////////////////////// ////////////////////////////// //////////////////////////////
+
+
+
+
+
+
+void genBullet(int ind) {
+	bulletX[ind] = 17;
+}
+void drawBullet(int ind) {
+	if (bulletFlag[ind] == true) {
+		gotoxy(bulletX[ind], bulletY[ind]);   cout << "*";
+	}
+}
+void eraseBullet(int ind) {
+	if (bulletFlag[ind] == true) {
+		gotoxy(bulletX[ind], bulletY[ind]); cout << " ";
+	}
+}
+void resetEnemy(int ind) {
+	eraseBullet(ind);
+	bulletY[ind] = 1;
+	genBullet(ind);
+}
+
+
+int pewpew() {
+	if (bulletY[0] + 4 >= 23) {
+		return 1;
+		
+	}
+	return 0;
+}
+
+
+
+
+
+
+
+//nn ////////////////////////////// ////////////////////////////// ////////////////////////////// //////////////////////////////
+void gameover() {
+	system("cls");
+	cout << endl;
+	cout << "\t\t--------------------------" << endl;
+	cout << "\t\t-------- Slabko... -------" << endl;
+	cout << "\t\t--------------------------" << endl << endl;
+	cout << "\t\tPress any key to go back to menu.";
+	_getch();
+}
+//nn ////////////////////////////// ////////////////////////////// ////////////////////////////// //////////////////////////////
+
+
+
+
+
+
+
+void play() {
+	//nn ////////////////////////////// ////////////////////////////// ////////////////////////////// //////////////////////////////
+	carPos = -1 + WIN_WIDTH / 2;
+	score = 0;
+	//nn ////////////////////////////// ////////////////////////////// ////////////////////////////// //////////////////////////////
+
+
+
+	bulletFlag[0] = 1;
+	bulletFlag[1] = 0;
+	bulletY[0] = bulletY[1] = 1;
+
+	system("cls");
+	
+	
+	genBullet(0);
+	
+
+
+	gotoxy(18, 5); cout << "Press any key to start";
+	_getch();
+	gotoxy(18, 5); cout << "                      ";
+
+	while (1) {
+		
+		
+		
+		drawBullet(0);
+		
+		if (pewpew() == 1) {
+			gameover();
+			return;
+		}
+		Sleep(10);
+		eraseBullet(0);
+		
+
+		
+
+		if (bulletFlag[0] == 1)
+			bulletY[0] += 1;
+
+		
+
+		if (bulletY[0] > SCREEN_HEIGHT - 4) {
+			resetEnemy(0);				
+		}
+		
+	}
+}
+
+
+
+
+//nn ////////////////////////////// ////////////////////////////// ////////////////////////////// //////////////////////////////
+int main()
+{
+	setcursor(0, 0);
+	srand((unsigned)time(NULL));
+
+	do {
+		system("cls");
+		gotoxy(10, 5); cout << " ---------------------------- ";
+		gotoxy(10, 6); cout << " |         Asteroids        | ";
+		gotoxy(10, 7); cout << " ----------------------------";
+		gotoxy(10, 9); cout << "1. Start Game";
+		gotoxy(10, 10); cout << "2. Instructions";
+		gotoxy(10, 11); cout << "3. Quit";
+		gotoxy(10, 13); cout << "Select option: ";
+		char op = _getche();
+
+		if (op == '1') play();
+		else if (op == '3') exit(0);
+
+	} while (1);
+
+	return 0;
+}
+//nn ////////////////////////////// ////////////////////////////// ////////////////////////////// //////////////////////////////
