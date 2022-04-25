@@ -53,6 +53,7 @@ void setcursor(bool visible, DWORD size) {
 
 void genBullet(int ind) {
 	bulletX[ind] = 17;
+	bulletY[ind] = 14;
 }
 void drawBullet(int ind) {
 	if (bulletFlag[ind] == true) {
@@ -111,8 +112,7 @@ void play() {
 
 
 	bulletFlag[0] = 1;
-	bulletFlag[1] = 0;
-	bulletY[0] = bulletY[1] = 1;
+	bulletY[0] = 1;
 
 	system("cls");
 
@@ -141,11 +141,11 @@ void play() {
 
 
 		if (bulletFlag[0] == 1)
-			bulletY[0] += 1;
+			bulletY[0] ++;
 
 
 
-		if (bulletY[0] > SCREEN_HEIGHT - 4) {
+		if (bulletY[0] > SCREEN_HEIGHT -4) {
 			resetBullet(0);
 		}
 
@@ -169,13 +169,12 @@ int main()
 		gotoxy(10, 6); cout << " |         Asteroids        | ";
 		gotoxy(10, 7); cout << " ----------------------------";
 		gotoxy(10, 9); cout << "1. Start Game";
-		gotoxy(10, 10); cout << "2. Instructions";
-		gotoxy(10, 11); cout << "3. Quit";
+		gotoxy(10, 11); cout << "2. Quit";
 		gotoxy(10, 13); cout << "Select option: ";
 		char op = _getche();
 
 		if (op == '1') play();
-		else if (op == '3') exit(0);
+		else if (op == '2') exit(0);
 
 	} while (1);
 
