@@ -53,7 +53,7 @@ void setcursor(bool visible, DWORD size) {
 
 void genBullet(int ind) {
 	bulletX[ind] = 17;
-	bulletY[ind] = 14;
+	bulletY[ind] = 15;
 }
 void drawBullet(int ind) {
 	if (bulletFlag[ind] == true) {
@@ -67,13 +67,13 @@ void eraseBullet(int ind) {
 }
 void resetBullet(int ind) {
 	eraseBullet(ind);
-	bulletY[ind] = 1;
+	bulletY[ind] = 15;
 	genBullet(ind);
 }
 
 
 int pewpew() {
-	if (bulletY[0] + 4 >= 23) {
+	if (bulletY[0] == 1) {
 		return 1;
 
 	}
@@ -112,7 +112,7 @@ void play() {
 
 
 	bulletFlag[0] = 1;
-	bulletY[0] = 1;
+	bulletY[0] = 15;
 
 	system("cls");
 
@@ -134,18 +134,18 @@ void play() {
 		if (pewpew() == 1) {
 			resetBullet(0);
 		}
-		Sleep(10);
+		Sleep(50);
 		eraseBullet(0);
 
 
 
 
 		if (bulletFlag[0] == 1)
-			bulletY[0] ++;
+			bulletY[0] -= 1;
 
 
 
-		if (bulletY[0] > SCREEN_HEIGHT -4) {
+		if (bulletY[0] == 1) {
 			resetBullet(0);
 		}
 
